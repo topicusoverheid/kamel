@@ -61,7 +61,7 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## Versioning
 
-The versioning scheme we use is explained in the [Maven documentation](https://cwiki.apache.org/confluence/display/MAVEN/Version+number+policy). For the versions available, see the [tags on this repository](REPOURI/tags). 
+The versioning scheme we use is explained in the [Maven documentation](https://cwiki.apache.org/confluence/display/MAVEN/Version+number+policy). For the versions available, see the [tags on this repository](https://github.com/topicusoverheid/kamel/tags). 
 
 ## Authors
 
