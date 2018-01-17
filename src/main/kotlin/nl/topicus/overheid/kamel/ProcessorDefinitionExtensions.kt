@@ -1,4 +1,4 @@
-package nl.topicus.overheid.kameel
+package nl.topicus.overheid.kamel
 
 import org.apache.camel.Exchange
 import org.apache.camel.Expression

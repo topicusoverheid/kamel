@@ -1,4 +1,4 @@
-package nl.topicus.overheid.kameel
+package nl.topicus.overheid.kamel
 
 import org.apache.camel.builder.RouteBuilder
 import org.apache.camel.model.OnExceptionDefinition

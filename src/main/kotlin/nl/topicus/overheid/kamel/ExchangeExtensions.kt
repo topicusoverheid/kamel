@@ -1,6 +1,7 @@
-package nl.topicus.overheid.kameel
+package nl.topicus.overheid.kamel
 
 import org.apache.camel.Exchange
+import org.apache.camel.Message
 import kotlin.reflect.KClass
 
 /**
@@ -13,7 +14,7 @@ import kotlin.reflect.KClass
 /**
  * Alias for `exchange.in`, as `in` requires backticks because it's a reserved keyword in Kotlin.
  */
-val Exchange.input
+val Exchange.input: Message
     get() = this.`in`
 
 /**
@@ -21,7 +22,7 @@ val Exchange.input
  *
  * @see Exchange.input
  */
-val Exchange.output
+val Exchange.output: Message
     get() = this.out
 
 /**

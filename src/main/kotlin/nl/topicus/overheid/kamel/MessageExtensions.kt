@@ -1,4 +1,4 @@
-package nl.topicus.overheid.kameel
+package nl.topicus.overheid.kamel
 
 import org.apache.camel.Message
 import kotlin.reflect.KClass
