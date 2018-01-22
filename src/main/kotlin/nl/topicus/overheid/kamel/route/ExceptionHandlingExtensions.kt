@@ -1,41 +1,16 @@
-package nl.topicus.overheid.kamel
+package nl.topicus.overheid.kamel.route
 
 import org.apache.camel.builder.RouteBuilder
 import org.apache.camel.model.OnExceptionDefinition
 import org.apache.camel.model.ProcessorDefinition
-import org.apache.camel.model.RouteDefinition
-import org.apache.camel.model.rest.RestDefinition
 import kotlin.reflect.KClass
 
 /**
- * Various Kotlin extensions for the Apache Camel [RouteBuilder]-class.
+ * Various Kotlin extensions for working with exceptions in Camel routes.
  *
  * @author Bas Dalenoord
  * @since 1.0-SNAPSHOT
  */
-
-/**
- * Creates a route from given URI, optionally with given ID which defaults to the URI otherwise, and applies given block on it.
- *
- * @param uri URI of the route to start.
- * @param routeId Optional ID for the route. If no ID is passed explicitly, the URI will be used as the ID by default.
- * @param toApply route block
- * @return [RouteDefinition] which will be handled by Camel.
- */
-fun RouteBuilder.from(uri: String, routeId: String = uri, toApply: RouteDefinition.() -> Unit): RouteDefinition {
-    return from(uri).routeId(routeId).apply { toApply(this) }
-}
-
-/**
- * Creates a new REST definition and applies given block on it.
- *
- * @param path Path of the REST-block.
- * @param toApply body of the REST-block.
- * @return [RestDefinition] which will be handled by Camel.
- */
-fun RouteBuilder.rest(path: String, toApply: RestDefinition.() -> Unit): RestDefinition {
-    return rest(path).apply(toApply)
-}
 
 /**
  * Create a new exception handling definition and applies given block on it.

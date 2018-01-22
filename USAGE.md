@@ -89,7 +89,7 @@ class ExampleRouteBuilder: RouteBuilder() {
 	override fun configure() {
 		from("direct:example") {
 			choice {
-				`when`(exchangeProperty("someprop").isNull) {
+				given(exchangeProperty("someprop").isNull) {
 					log("someprop was null")
 				} otherwise {
 					log("someprop wasn't null")
@@ -99,7 +99,7 @@ class ExampleRouteBuilder: RouteBuilder() {
 ```
 By defining the choices in their own blocks, a Kamel choice looks much more like an `if`-/`else`-structure you'd normally see. An added benefit is the fact that formatting can be enforced by formatting tools, whereas in the Java sample most code formatters would simply pull all chained calls to the same indentation level making your code much less readable.
 
->Note: One disadvantage of the previous sample is the fact that `when` is a reserved keyword in Kotlin, adding the need to declare a call to `when(Predicate)` in backticks. To overcome this, an alias for the method has been declared called `given`, in the example above the call to ````when`(exchangeProperty("someprop").isNull)```` would become ````given(exchangeProperty("someprop").isNull)````, eliminating the need to add the backticks.
+>Note: in the Java-DSL, a condition in a choice block would be declared in a `when`-call, but as `when` is a reserved keyword in Kotlin, `given` was chosen as an alias to that function.
 
 ## Defining REST endpoints with Kamel
 

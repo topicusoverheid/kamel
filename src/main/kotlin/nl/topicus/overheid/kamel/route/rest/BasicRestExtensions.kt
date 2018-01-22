@@ -1,9 +1,8 @@
-package nl.topicus.overheid.kamel
+package nl.topicus.overheid.kamel.route.rest
 
+import org.apache.camel.builder.RouteBuilder
 import org.apache.camel.model.RouteDefinition
 import org.apache.camel.model.rest.RestDefinition
-import org.apache.camel.model.rest.RestOperationParamDefinition
-import org.apache.camel.model.rest.RestParamType
 import kotlin.reflect.KClass
 
 /**
@@ -12,6 +11,15 @@ import kotlin.reflect.KClass
  * @author Bas Dalenoord
  * @since 1.0-SNAPSHOT
  */
+
+/**
+ * Creates a new REST definition and applies given block on it.
+ *
+ * @param path Path of the REST-block.
+ * @param toApply body of the REST-block.
+ * @return [RestDefinition] which will be handled by Camel.
+ */
+fun RouteBuilder.rest(path: String, toApply: RestDefinition.() -> Unit): RestDefinition = rest(path).apply(toApply)
 
 /**
  * Defines a new block for a RESTful HTTP GET-call.
@@ -90,9 +98,7 @@ fun RestDefinition.delete(path: String = "", toApply: RestDefinition.() -> Unit)
  * @param klass Class of the input type for the exchange.
  * @see inType
  */
-fun RestDefinition.type(klass: KClass<*>): RestDefinition {
-    return type(klass.java)
-}
+fun RestDefinition.type(klass: KClass<*>): RestDefinition = type(klass.java)
 
 /**
  *
@@ -100,18 +106,14 @@ fun RestDefinition.type(klass: KClass<*>): RestDefinition {
  *
  * @param klass Class of the input type for the exchange.
  */
-fun RestDefinition.inType(klass: Class<*>): RestDefinition {
-    return type(klass)
-}
+fun RestDefinition.inType(klass: Class<*>): RestDefinition = type(klass)
 
 /**
  * Alias for `[type]` with a more specific name which is more relatable to [outType].
  *
  * @param klass Class of the input type for the exchange.
  */
-fun RestDefinition.inType(klass: KClass<*>): RestDefinition {
-    return type(klass = klass)
-}
+fun RestDefinition.inType(klass: KClass<*>): RestDefinition = type(klass = klass)
 
 /**
  * Overload for [RestDefinition.outType] accepting a `KClass<*>` instead of a `Class<?>`. Use of this overload is preferred but requires the use of a
@@ -119,91 +121,7 @@ fun RestDefinition.inType(klass: KClass<*>): RestDefinition {
  *
  * @param klass Class of the output type for the exchange.
  */
-fun RestDefinition.outType(klass: KClass<*>): RestDefinition {
-    return outType(klass.java)
-}
-
-/**
- * Define a new parameter block. Use of this method is not recommended as the type of the parameter needs to be defined manually. Use of one of the
- * following methods is adviced instead:
- *  - [bodyParam] for a parameter passed in the HTTP body
- *  - [formDataParam] for a parameter passed as form data
- *  - [headerParam] for a parameter passed in a HTTP header
- *  - [pathParam] for a parameter passed in the URL path
- *  - [queryParam] for a query parameter
- *
- * @param toApply body of the parameter block
- * @return returns back to the [RestDefinition] after adding the parameter and closing the parameter block.
- */
-fun RestDefinition.param(toApply: RestOperationParamDefinition.() -> Unit): RestDefinition {
-    return param()
-            .apply(toApply)
-            .endParam()
-}
-
-/**
- * Define a new paramter block for a body parameter.
- *
- * @param toApply body of the parameter block
- * @return returns back to the [RestDefinition] after adding the parameter and closing the parameter block.
- */
-fun RestDefinition.bodyParam(toApply: RestOperationParamDefinition.() -> Unit): RestDefinition {
-    return typedParam(RestParamType.body, toApply)
-}
-
-/**
- * Define a new parameter block for a form data parameter.
- *
- * @param toApply body of the parameter block
- * @return returns back to the [RestDefinition] after adding the parameter and closing the parameter block.
- */
-fun RestDefinition.formDataParam(toApply: RestOperationParamDefinition.() -> Unit): RestDefinition {
-    return typedParam(RestParamType.formData, toApply)
-}
-
-/**
- * Define a new parameter block for a header parameter.
- *
- * @param toApply body of the parameter block
- * @return returns back to the [RestDefinition] after adding the parameter and closing the parameter block.
- */
-fun RestDefinition.headerParam(toApply: RestOperationParamDefinition.() -> Unit): RestDefinition {
-    return typedParam(RestParamType.header, toApply)
-}
-
-/**
- * Define a new parameter block for a path parameter.
- *
- * @param toApply body of the parameter block
- * @return returns back to the [RestDefinition] after adding the parameter and closing the parameter block.
- */
-fun RestDefinition.pathParam(toApply: RestOperationParamDefinition.() -> Unit): RestDefinition {
-    return typedParam(RestParamType.path, toApply)
-}
-
-/**
- * Define a new parameter block for a query parameter.
- *
- * @param toApply body of the parameter block
- * @return returns back to the [RestDefinition] after adding the parameter and closing the parameter block.
- */
-fun RestDefinition.queryParam(toApply: RestOperationParamDefinition.() -> Unit): RestDefinition {
-    return typedParam(RestParamType.query, toApply)
-}
-
-/**
- * Helper-method for the various typed parameters.
- *
- * @param type Type of the parameter block to create
- * @param toApply content of the parameter block
- * @return returns back to the [RestDefinition] after adding the parameter and closing the parameter block.
- */
-private fun RestDefinition.typedParam(type: RestParamType, toApply: RestOperationParamDefinition.() -> Unit): RestDefinition {
-    return param()
-            .type(type)
-            .apply(toApply)
-            .endParam()
-}
+fun RestDefinition.outType(klass: KClass<*>): RestDefinition = outType(klass.java)
 
 /**
  * Define a subroute linked to the current RestDefintion
@@ -211,6 +129,4 @@ private fun RestDefinition.typedParam(type: RestParamType, toApply: RestOperatio
  * @param toApply block of the subroute
  * @return returns back to the [RestDefinition] after adding the subroute
  */
-fun RestDefinition.route(toApply: RouteDefinition.() -> Unit): RestDefinition {
-    return route().apply(toApply).endRest()
-}
+fun RestDefinition.route(toApply: RouteDefinition.() -> Unit): RestDefinition = route().apply(toApply).endRest()

@@ -15,15 +15,11 @@ import kotlin.reflect.KClass
  * 
  * @param type Type of the body, can be `null`.
  */
-fun <T: Any> Message.getBody(type: KClass<T>) : T? {
-    return getBody(type.java)
-}
+fun <T: Any> Message.getBody(type: KClass<T>) : T? = getBody(type.java)
 
 /**
  * Gives the typed body of a message, which cannot be `null`.
  *
  * @param type Type of the body, cannot be `null`.
  */
-fun <T: Any> Message.surelyGetBody(type: KClass<T>) : T {
-    return getBody(type.java) as T
-}
+fun <T: Any> Message.surelyGetBody(type: KClass<T>) : T = getBody(type.java) as T

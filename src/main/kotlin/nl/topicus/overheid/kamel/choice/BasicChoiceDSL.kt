@@ -1,4 +1,4 @@
-package nl.topicus.overheid.kamel
+package nl.topicus.overheid.kamel.choice
 
 import org.apache.camel.Predicate
 import org.apache.camel.model.ChoiceDefinition
@@ -21,8 +21,8 @@ import org.apache.camel.model.RouteDefinition
  */
 fun RouteDefinition.choice(toApply: ChoiceDefinition.() -> Unit): ProcessorDefinition<*> {
     return choice()
-            .apply(toApply)
-            .end()
+        .apply(toApply)
+        .end()
 }
 
 /**
@@ -36,8 +36,8 @@ fun RouteDefinition.choice(toApply: ChoiceDefinition.() -> Unit): ProcessorDefin
  */
 private fun ChoiceDefinition.`when`(predicate: Predicate, toApply: ChoiceDefinition.() -> Unit): ChoiceDefinition {
     return `when`(predicate)
-            .apply(toApply)
-            .endChoice()
+        .apply(toApply)
+        .endChoice()
 }
 
 /**
@@ -46,9 +46,7 @@ private fun ChoiceDefinition.`when`(predicate: Predicate, toApply: ChoiceDefinit
  * @param predicate Predicate to consider before executing the defined actions
  * @param toApply lambda to populate the actions to be executed when the predicate evaluates to `true`
  */
-fun ChoiceDefinition.given(predicate: Predicate, toApply: ChoiceDefinition.() -> Unit): ChoiceDefinition {
-    return `when`(predicate, toApply)
-}
+fun ChoiceDefinition.given(predicate: Predicate, toApply: ChoiceDefinition.() -> Unit): ChoiceDefinition = `when`(predicate, toApply)
 
 /**
  * Defines the various actions to take if none of the predicates in the [ChoiceDefinition] evaluated to `true`.
@@ -57,6 +55,6 @@ fun ChoiceDefinition.given(predicate: Predicate, toApply: ChoiceDefinition.() ->
  */
 fun ChoiceDefinition.otherwise(toApply: ChoiceDefinition.() -> Unit): ChoiceDefinition {
     return otherwise()
-            .apply(toApply)
-            .endChoice()
+        .apply(toApply)
+        .endChoice()
 }

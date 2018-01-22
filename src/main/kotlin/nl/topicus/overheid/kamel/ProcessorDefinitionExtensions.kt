@@ -19,9 +19,7 @@ import kotlin.reflect.KClass
  * @see ProcessorDefinition.bean
  */
 @Suppress("EXTENSION_SHADOWED_BY_MEMBER") // TODO: Define a different named alias for this method.
-fun ProcessorDefinition<*>.bean(klass: KClass<*>): ProcessorDefinition<*> {
-    return bean(klass.java)
-}
+fun ProcessorDefinition<*>.bean(klass: KClass<*>): ProcessorDefinition<*> = bean(klass.java)
 
 /**
  * Allows to define an Exchange processor with the exchange defined as it's receiver, removing the need to explicitly define the `exchange`-
@@ -30,21 +28,7 @@ fun ProcessorDefinition<*>.bean(klass: KClass<*>): ProcessorDefinition<*> {
  * @param toApply body of the processor
  * @return returns back to the [ProcessorDefinition] after adding the processor.
  */
-fun ProcessorDefinition<*>.processExchange(toApply: Exchange.() -> Unit): ProcessorDefinition<*> {
-    return process { exchange ->
-        with(exchange, toApply)
-    }
-}
-
-/**
- * Allows a [Exchange.getIn] call with a Kotlin-class instead of a Java-class. _This only works when you use named parameters, i.e.:
- * `getIn(kclass = Unit::class)` instead of `getIn(Unit::class.java)`._
- *
- * @param klass Class of the input body
- */
-inline fun <reified T : Any> Exchange.getIn(klass: KClass<T>): T {
-    return getIn(klass.java)
-}
+fun ProcessorDefinition<*>.processExchange(toApply: Exchange.() -> Unit): ProcessorDefinition<*> = process { exchange -> with(exchange, toApply) }
 
 /**
  * Allows a simpler call to marshal with given [JsonLibrary], instead of chaining `marshal()` together with `json(jsonLibrary)` manually.
@@ -52,18 +36,15 @@ inline fun <reified T : Any> Exchange.getIn(klass: KClass<T>): T {
  * @param jsonLibrary library to be used
  * @return returns back to the [ProcessorDefinition] after adding the marshaller.
  */
-fun ProcessorDefinition<*>.marshal(jsonLibrary: JsonLibrary): ProcessorDefinition<*> {
-    return marshal().json(jsonLibrary)
-}
+fun ProcessorDefinition<*>.marshal(jsonLibrary: JsonLibrary): ProcessorDefinition<*> = marshal().json(jsonLibrary)
 
 /**
  * Allows to define a splitter with a block definition for the splitted processing.
- * TODO: This definition still clashes with [SplitDefinition.split] using an AggregationStrategy, change the name of
+ * TODO: This definition still clashes with [SplitDefinition.split] using an AggregationStrategy, change the name of the method or provide an alias.
  *
  * @param expression Expression to split
  * @param toApply block to be applied the the splitter
  * @return returns back to the [ProcessorDefinition] after adding the splitter.
  */
-fun ProcessorDefinition<*>.split(expression: Expression, toApply: SplitDefinition.() -> Unit): ProcessorDefinition<*> {
-    return split(expression).apply(toApply).end()
-}
+fun ProcessorDefinition<*>.split(expression: Expression, toApply: SplitDefinition.() -> Unit): ProcessorDefinition<*> =
+    split(expression).apply(toApply).end()
