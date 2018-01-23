@@ -8,6 +8,36 @@
     <artifactId>kamel</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <name>Kamel</name>
+    <description>Kotlin DSL for Apache Camel</description>
+    <url>https://github.com/topicusoverheid/kamel</url>
+    <licenses>
+        <license>
+            <name>Apache 2.0 License</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>bas.dalenoord</id>
+            <name>Bas Dalenoord</name>
+            <email>bas.dalenoord@topicus.nl</email>
+            <organization>Topicus</organization>
+            <organizationUrl>https://topicus.nl</organizationUrl>
+            <roles>
+                <role>Project-Administrator</role>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:https://github.com/topicusoverheid/kamel.git</connection>
+        <developerConnection>scm:git:https://github.com/topicusoverheid/kamel.git</developerConnection>
+        <url>https://github.com/topicusoverheid/kamel</url>
+    </scm>
+
     <properties>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <kotlin.version>1.2.20</kotlin.version>
@@ -16,6 +46,8 @@
         <!-- The following properties are required for deployment to the Maven Central Repository, do not change or alter them! -->
         <ossrh-staging-plugin.version>1.6.8</ossrh-staging-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+        <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+        <dokka.version>0.9.15</dokka.version>
         <gpg.keyname>AC025E3F</gpg.keyname>
     </properties>
 
@@ -93,6 +125,7 @@
                 </executions>
             </plugin>
 
+            <!-- The following plugins are required for deployments to the Maven Central Repository -->
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -119,6 +152,32 @@
                             <keyname>${gpg.keyname}</keyname>
                             <passphraseServerId>${gpg.keyname}</passphraseServerId>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jetbrains.dokka</groupId>
+                <artifactId>dokka-maven-plugin</artifactId>
+                <version>${dokka.version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>javadocJar</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
